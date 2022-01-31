@@ -25,8 +25,15 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import {BlueMapApp} from "@/js/BlueMapApp";
+import { BlueMapApp } from "@/js/BlueMapApp";
 import i18n from './i18n';
+
+import { getLCP, getFID, getCLS } from 'web-vitals';
+
+// vitals
+getCLS(console.log)
+getFID(console.log)
+getLCP(console.log)
 
 // utils
 String.prototype.includesCI = function (val) {

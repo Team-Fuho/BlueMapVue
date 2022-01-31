@@ -1,14 +1,18 @@
 export default {
-    default: "en",
+    default: "vi",
     languages: [
         // remove the languages you don't need, reorder them, or add your own
+        // {
+        //     locale: "cs",
+        //     name: "Czech"
+        // },
+        // {
+        //     locale: "de",
+        //     name: "Deutsch"
+        // },
         {
-            locale: "cs",
-            name: "Czech"
-        },
-        {
-            locale: "de",
-            name: "Deutsch"
+            locale: "vi",
+            name: "Tiếng Việt"
         },
         {
             locale: "en",
@@ -18,46 +22,46 @@ export default {
             locale: "fr",
             name: "French"
         },
-        {
-            locale: "it",
-            name: "Italiano"
-        },
-        {
-            locale: "lv",
-            name: "Latviešu"
-        },
-        {
-            locale: "hu",
-            name: "Magyar"
-        },
-        {
-            locale: "nl",
-            name: "Nederlands"
-        },
-        {
-            locale: "pl",
-            name: "Polski"
-        },
-        {
-            locale: "pt_PT",
-            name: "Português (Portugal)"
-        },
+        // {
+        //     locale: "it",
+        //     name: "Italiano"
+        // },
+        // {
+        //     locale: "lv",
+        //     name: "Latviešu"
+        // },
+        // {
+        //     locale: "hu",
+        //     name: "Magyar"
+        // },
+        // {
+        //     locale: "nl",
+        //     name: "Nederlands"
+        // },
+        // {
+        //     locale: "pl",
+        //     name: "Polski"
+        // },
+        // {
+        //     locale: "pt_PT",
+        //     name: "Português (Portugal)"
+        // },
         {
             locale: "ru",
             name: "Русский"
         },
-        {
-            locale: "fi",
-            name: "Suomi"
-        },
-        {
-            locale: "es",
-            name: "Spanish"
-        },
-	{
-            locale: "sv",
-            name: "Svenska"
-        },
+        // {
+        //     locale: "fi",
+        //     name: "Suomi"
+        // },
+        // {
+        //     locale: "es",
+        //     name: "Spanish"
+        // },
+        // {
+        //     locale: "sv",
+        //     name: "Svenska"
+        // },
         {
             locale: "ja",
             name: "日本語"
@@ -66,14 +70,14 @@ export default {
             locale: "zh_CN",
             name: "简体中文"
         },
-        {
-            locale: "zh_TW",
-            name: "中文(台灣)"
-        },
-        {
-            locale: "zh_HK",
-            name: "中文(香港)"
-        },
+        // {
+        //     locale: "zh_TW",
+        //     name: "中文(台灣)"
+        // },
+        // {
+        //     locale: "zh_HK",
+        //     name: "中文(香港)"
+        // },
         {
             locale: "ko",
             name: "한국어"

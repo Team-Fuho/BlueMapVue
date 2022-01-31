@@ -25,7 +25,8 @@
     "bluemap": "file:./BlueMapWeb",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
-    "vue-i18n": "^8.24.1"
+    "vue-i18n": "^8.24.1",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

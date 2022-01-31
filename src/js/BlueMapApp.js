@@ -23,18 +23,18 @@
  * THE SOFTWARE.
  */
 import "bluemap/src/BlueMap";
-import {MapViewer} from "bluemap/src/MapViewer";
-import {MapControls} from "bluemap/src/controls/map/MapControls";
-import {FreeFlightControls} from "bluemap/src/controls/freeflight/FreeFlightControls";
-import {FileLoader, MathUtils, Vector3} from "three";
-import {Map as BlueMapMap} from "bluemap/src/map/Map";
-import {alert, animate, EasingFunctions, generateCacheHash} from "bluemap/src/util/Utils";
-import {PlayerMarkerManager} from "bluemap/src/markers/PlayerMarkerManager";
-import {MarkerFileManager} from "bluemap/src/markers/MarkerFileManager";
-import {MainMenu} from "@/js/MainMenu";
-import {PopupMarker} from "@/js/PopupMarker";
-import {MarkerSet} from "bluemap/src/markers/MarkerSet";
-import {getLocalStorage, round, setLocalStorage} from "@/js/Utils";
+import { MapViewer } from "bluemap/src/MapViewer";
+import { MapControls } from "bluemap/src/controls/map/MapControls";
+import { FreeFlightControls } from "bluemap/src/controls/freeflight/FreeFlightControls";
+import { FileLoader, MathUtils, Vector3 } from "three";
+import { Map as BlueMapMap } from "bluemap/src/map/Map";
+import { alert, animate, EasingFunctions, generateCacheHash } from "bluemap/src/util/Utils";
+import { PlayerMarkerManager } from "bluemap/src/markers/PlayerMarkerManager";
+import { MarkerFileManager } from "bluemap/src/markers/MarkerFileManager";
+import { MainMenu } from "@/js/MainMenu";
+import { PopupMarker } from "@/js/PopupMarker";
+import { MarkerSet } from "bluemap/src/markers/MarkerSet";
+import { getLocalStorage, round, setLocalStorage } from "@/js/Utils";
 import i18n from "../i18n";
 
 export class BlueMapApp {
@@ -78,6 +78,7 @@ export class BlueMapApp {
             menu: this.mainMenu,
             maps: [],
             theme: null,
+            progress: 0,
             debug: false
         };
 
@@ -107,6 +108,11 @@ export class BlueMapApp {
         this.appState.maps.splice(0, this.appState.maps.length);
         this.mapsMap.clear();
 
+        // force ;-;
+        this.setTheme(this.loadUserSetting("theme", this.appState.theme));
+
+        this.appState.progress += 10;
+
         // load settings
         await this.getSettings();
         this.appState.controls.freeFlightEnabled = this.settings.freeFlightEnabled;
@@ -115,12 +121,21 @@ export class BlueMapApp {
         await this.mapViewer.switchMap(null);
         oldMaps.forEach(map => map.dispose());
 
+        this.appState.progress += 10;
+
         // load maps
         this.maps = this.loadMaps();
-        for (let map of this.maps) {
+        // for (let map of this.maps) {
+        //     this.mapsMap.set(map.data.id, map);
+        //     this.appState.maps.push(map.data);
+        // }
+        this.maps.forEach((map, index) => {
             this.mapsMap.set(map.data.id, map);
             this.appState.maps.push(map.data);
-        }
+            this.appState.progress += Math.floor(
+                (1 / this.maps.length) * 60
+            );
+        })
 
         // switch to map
         if (!await this.loadPageAddress()) {
@@ -134,14 +149,16 @@ export class BlueMapApp {
         this.events.addEventListener("bluemapMapInteraction", this.mapInteraction);
 
         // start app update loop
-        if(this.updateLoop) clearTimeout(this.updateLoop);
+        if (this.updateLoop) clearTimeout(this.updateLoop);
         this.updateLoop = setTimeout(this.update, 1000);
+
 
         // load user settings
         await this.loadUserSettings();
 
         // save user settings
         this.saveUserSettings();
+        this.appState.progress = 100;
     }
 
     update = async () => {
@@ -155,7 +172,7 @@ export class BlueMapApp {
             false;
 
         if (this.mapViewer.map && player) {
-            if (player.world !== this.mapViewer.map.data.world){
+            if (player.world !== this.mapViewer.map.data.world) {
 
                 /** @type BlueMapMap */
                 let matchingMap = null;
@@ -227,7 +244,7 @@ export class BlueMapApp {
         let maps = [];
 
         // create maps
-        if (settings.maps !== undefined){
+        if (settings.maps !== undefined) {
             for (let mapId in settings.maps) {
                 if (!Object.prototype.hasOwnProperty.call(settings.maps, mapId)) continue;
 
@@ -255,7 +272,7 @@ export class BlueMapApp {
     }
 
     async getSettings() {
-        if (!this.settings){
+        if (!this.settings) {
             this.settings = await this.loadSettings();
         }
 
@@ -271,7 +288,7 @@ export class BlueMapApp {
             loader.setResponseType("json");
             loader.load(this.dataUrl + "settings.json?" + generateCacheHash(),
                 resolve,
-                () => {},
+                () => { },
                 () => reject("Failed to load the settings.json!")
             );
         });
@@ -364,7 +381,7 @@ export class BlueMapApp {
             cm.tilt = MathUtils.lerp(startTilt, 0, ep);
         }, transition, finished => {
             this.mapControls.reset();
-            if (finished){
+            if (finished) {
                 cm.controls = this.mapControls;
                 this.updatePageAddress();
             }
@@ -397,7 +414,7 @@ export class BlueMapApp {
             cm.tilt = MathUtils.lerp(startTilt, 0, ep);
         }, transition, finished => {
             this.mapControls.reset();
-            if (finished){
+            if (finished) {
                 cm.controls = this.mapControls;
                 this.updatePageAddress();
             }
@@ -433,7 +450,7 @@ export class BlueMapApp {
             cm.ortho = MathUtils.lerp(startOrtho, 0, Math.min(p * 2, 1));
             cm.tilt = MathUtils.lerp(startTilt, 0, ep);
         }, transition, finished => {
-            if (finished){
+            if (finished) {
                 cm.controls = this.freeFlightControls;
                 this.updatePageAddress();
             }
@@ -445,7 +462,7 @@ export class BlueMapApp {
     setDebug(debug) {
         this.appState.debug = debug;
 
-        if (debug){
+        if (debug) {
             this.mapViewer.stats.showPanel(0);
         } else {
             this.mapViewer.stats.showPanel(-1);
@@ -486,7 +503,8 @@ export class BlueMapApp {
         location.reload();
     }
 
-    async loadUserSettings(){
+    async loadUserSettings() {
+        this.appState.progress = 80;
         if (!this.settings.useCookies) return;
 
         if (this.loadUserSetting("resetSettings", false)) {
@@ -494,8 +512,9 @@ export class BlueMapApp {
             this.saveUserSettings();
             return;
         }
+        this.appState.progress = 85;
 
-        this.mapViewer.clearTileCache(this.loadUserSetting("tileCacheHash", this.mapViewer.tileCacheHash));
+        this.mapViewer.clearTileCache(this.loadUserSetting("tileCacheHash", this.mapViewer.tileCacheHash)); this.appState.progress = 90;
 
         this.mapViewer.superSampling = this.loadUserSetting("superSampling", this.mapViewer.data.superSampling);
         this.mapViewer.data.loadedHiresViewDistance = this.loadUserSetting("hiresViewDistance", this.mapViewer.data.loadedHiresViewDistance);
@@ -503,7 +522,8 @@ export class BlueMapApp {
         this.mapViewer.updateLoadedMapArea();
         this.appState.controls.mouseSensitivity = this.loadUserSetting("mouseSensitivity", this.appState.controls.mouseSensitivity);
         this.appState.controls.invertMouse = this.loadUserSetting("invertMouse", this.appState.controls.invertMouse);
-        this.updateControlsSettings();
+        this.updateControlsSettings(); this.appState.progress = 95;
+
         this.setTheme(this.loadUserSetting("theme", this.appState.theme));
         await i18n.setLanguage(this.loadUserSetting("lang", i18n.locale));
         this.setDebug(this.loadUserSetting("debug", this.appState.debug));
@@ -529,15 +549,15 @@ export class BlueMapApp {
         alert(this.events, "Settings saved!", "info");
     }
 
-    loadUserSetting(key, defaultValue){
+    loadUserSetting(key, defaultValue) {
         let value = getLocalStorage("bluemap-" + key);
 
         if (value === undefined) return defaultValue;
         return value;
     }
 
-    saveUserSetting(key, value){
-        if (this.savedUserSettings.get(key) !== value){
+    saveUserSetting(key, value) {
+        if (this.savedUserSettings.get(key) !== value) {
             this.savedUserSettings.set(key, value);
             setLocalStorage("bluemap-" + key, value);
         }
@@ -600,9 +620,9 @@ export class BlueMapApp {
         controls.ortho = parseFloat(values[8]);
 
         switch (values[9]) {
-            case "flat" : this.setFlatView(0); break;
-            case "free" : this.setFreeFlight(0, controls.position.y); break;
-            default : this.setPerspectiveView(0); break;
+            case "flat": this.setFlatView(0); break;
+            case "free": this.setFreeFlight(0, controls.position.y); break;
+            default: this.setPerspectiveView(0); break;
         }
 
         return true;
