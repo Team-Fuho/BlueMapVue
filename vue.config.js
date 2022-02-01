@@ -18,5 +18,7 @@ module.exports = {
                 changeOrigin: true,
             },
         }
-    }
+    },
+    productionSourceMap: false,
+    integrity: true,
 }

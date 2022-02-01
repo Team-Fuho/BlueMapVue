@@ -115,7 +115,7 @@ export class BlueMapApp {
 
         // load settings
         await this.getSettings();
-        this.appState.controls.freeFlightEnabled = this.settings.freeFlightEnabled;
+        // this.appState.controls.freeFlightEnabled = this.settings.freeFlightEnabled;
 
         // unload loaded maps
         await this.mapViewer.switchMap(null);

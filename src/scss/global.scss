@@ -28,6 +28,7 @@
 // ### global rules ###
 :root {
   line-height: 1rem;
+  font-style: none;
 
   @include dark-theme;
 

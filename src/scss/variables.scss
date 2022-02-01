@@ -27,10 +27,12 @@
 $mobile-break: 575.98px;
 
 // themes
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
-
+// @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+@import "font.scss";
 @mixin dark-theme {
-  font-family: 'Quicksand', sans-serif;
+  // font-family: 'Quicksand', sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 16px;
   font-weight: 400;
 
@@ -50,7 +52,8 @@ $mobile-break: 575.98px;
 }
 
 @mixin light-theme {
-  font-family: 'Quicksand', sans-serif;
+  // font-family: 'Quicksand', sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 16px;
   font-weight: 500;
 
