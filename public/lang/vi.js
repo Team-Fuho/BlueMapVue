@@ -13,8 +13,8 @@ export default {
         title: "Địa điểm",
         button: "Địa điểm",
         tooltip: "Danh sách các địa điểm",
-        marker: "địa điểm | các địa điểm",
-        markerSet: "cụm địa điểm | các cụm địa điểm",
+        marker: "địa điểm | địa điểm",
+        markerSet: "cụm địa điểm | cụm địa điểm",
         searchPlaceholder: "Tìm kiếm...",
         followPlayerTitle: "Trinh thám"
     },
