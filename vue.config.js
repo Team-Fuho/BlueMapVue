@@ -1,20 +1,25 @@
 /**
  * @type {import('@vue/cli-service').ProjectOptions}
  */
+const t = p => `http://localhost:${p}`
 module.exports = {
     publicPath: './',
     devServer: {
         proxy: {
-            '/data': {
-                target: 'https://bluecolored.de/bluemap',
+            '/data/': {
+                target: t(8081),
                 changeOrigin: true,
             },
+            '/assets/images': {
+                target: t(8081),
+                changeOrigin: t(8081)
+            },
             '/assets/playerheads': {
-                target: 'https://bluecolored.de/bluemap',
+                target: t(8080),
                 changeOrigin: true,
             },
             '/live': {
-                target: 'https://bluecolored.de/bluemap',
+                target: t(8080),
                 changeOrigin: true,
             },
         }
