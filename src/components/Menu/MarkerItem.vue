@@ -5,14 +5,10 @@
         <img :src="'assets/playerheads/' + marker.playerUuid + '.png'" alt="playerhead" @error="steve">
       </div>
       <div class="info">
+        <img v-if="markerImage.image" class="img" width="66" height="50" :src="markerImage.image"/>
         <div class="label">{{markerLabel}}</div>
         <div class="stats">
-          <div v-if="appState.debug">
-            {{marker.type}}-marker
-          </div>
-          <div>
             ({{marker.position.x | position}} | {{marker.position.y | position}} | {{marker.position.z | position}})
-          </div>
         </div>
       </div>
     </div>
@@ -57,6 +53,10 @@ export default {
       }
 
       return this.marker.id;
+    },
+    markerImage() {
+      const {width,height,image} = this.marker;
+      return {width,height,image};
     }
   },
   filters: {
@@ -96,7 +96,6 @@ export default {
       } else if (!this.marker.visible) {
         return;
       }
-
       cm.position.copy(this.marker.position);
     },
     steve(event) {
@@ -108,6 +107,20 @@ export default {
 
 <style lang="scss">
 @import "~@/scss/variables.scss";
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.info .img {
+  border-radius: 4px;
+  margin: 4px;
+}
+
+.info .stats:nth-child(3) {
+  margin-left: 80px !important;
+}
 
 .side-menu .marker-item {
   display: flex;

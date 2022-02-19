@@ -2,12 +2,6 @@
   <div class="control-bar">
     <MenuButton :close="appState.menu.isOpen" :back="false" @action="appState.menu.reOpenPage()" :title="$t('menu.tooltip')" />
     <div class="space thin-hide"></div>
-    <SvgButton v-if="appState.maps.length > 0" class="thin-hide" :title="$t('maps.tooltip')"
-               @action="appState.menu.openPage('maps', $t('maps.title'))">
-      <svg viewBox="0 0 30 30">
-        <polygon points="26.708,22.841 19.049,25.186 11.311,20.718 3.292,22.841 7.725,5.96 13.475,4.814 19.314,7.409 25.018,6.037 "/>
-      </svg>
-    </SvgButton>
     <SvgButton v-if="markers.markerSets.length > 0 || markers.markers.length > 0" class="thin-hide" :title="$t('markers.tooltip')"
                @action="appState.menu.openPage('markers', $t('markers.title'), {markerSet: markers})">
       <svg viewBox="0 0 30 30">
