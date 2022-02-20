@@ -1,3 +1,4 @@
 [submodule "BlueMapWeb"]
 	path = BlueMapWeb
 	url = https://github.com/Team-Fuho/BlueMapWeb
+	branch = test
