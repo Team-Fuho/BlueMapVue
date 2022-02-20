@@ -5,7 +5,7 @@
         <img :src="'assets/playerheads/' + marker.playerUuid + '.png'" alt="playerhead" @error="steve">
       </div>
       <div class="info">
-        <img v-if="markerImage.image" class="img" width="66" height="50" :src="markerImage.image"/>
+        <img v-if="markerImage.image" class="img" width="96%" :src="markerImage.image"/>
         <div class="label">{{markerLabel}}</div>
         <div class="stats">
             ({{marker.position.x | position}} | {{marker.position.y | position}} | {{marker.position.z | position}})
@@ -108,18 +108,9 @@ export default {
 <style lang="scss">
 @import "~@/scss/variables.scss";
 
-.info {
-  display: flex;
-  flex-direction: row;
-}
-
 .info .img {
   border-radius: 4px;
-  margin: 4px;
-}
-
-.info .stats:nth-child(3) {
-  margin-left: 80px !important;
+  margin: 2%;
 }
 
 .side-menu .marker-item {
