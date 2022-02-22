@@ -16,7 +16,6 @@
       :bgColor="appState.theme === 'light' ? '#fff' : '#181818'"
       :color="appState.theme === 'light' ? '#07204a' : '#fff'"
     />
-
     <FreeFlightMobileControls v-if="appState.controls.state === 'free'" />
     <ControlBar />
     <MainMenu :menu="appState.menu" />

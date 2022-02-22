@@ -51,7 +51,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-
+  scroll-behavior:smooth;
   overflow: hidden;
 
   pointer-events: auto;

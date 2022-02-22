@@ -1,14 +1,17 @@
 <template>
-  <div class="marker-item" :class="{'marker-hidden': !marker.visible}">
-    <div class="marker-button" :title="marker.id" @click="click(false)">
+  <div class="marker-item" :ref="`marker-${marker.id}`" :class="{'marker-hidden': !marker.visible}">
+    <div class="marker-button" :title="marker.id" @click.middle="click(false)" @click="viewDetails()">
       <div class="icon" v-if="marker.type === 'player'">
         <img :src="'assets/playerheads/' + marker.playerUuid + '.png'" alt="playerhead" @error="steve">
       </div>
       <div class="info">
-        <img v-if="markerImage.image" class="img" width="96%" :src="markerImage.image"/>
+        <img v-if="markerImage.image" class="img" :src="markerImage.image"/>
         <div class="label">{{markerLabel}}</div>
         <div class="stats">
             ({{marker.position.x | position}} | {{marker.position.y | position}} | {{marker.position.z | position}})
+        </div>
+        <div v-show="isExpanded" class="details" v-if="marker.detail">
+          <p v-html="marker.detail"/>
         </div>
       </div>
     </div>
@@ -36,6 +39,7 @@ export default {
     return {
       appState: this.$bluemap.appState,
       controls: this.$bluemap.mapViewer.controlsManager.data,
+      isExpanded: false
     }
   },
   computed: {
@@ -65,9 +69,13 @@ export default {
     }
   },
   methods: {
+    viewDetails() {
+      this.isExpanded = !this.isExpanded;
+      if (this.isExpanded)
+        this.$el.scrollIntoView({behavior: 'smooth'});
+    },
     async click(follow) {
       let cm = this.$bluemap.mapViewer.controlsManager;
-      
       if (cm.controls && cm.controls.stopFollowingPlayerMarker) {
         cm.controls.stopFollowingPlayerMarker();
       }
@@ -108,14 +116,9 @@ export default {
 <style lang="scss">
 @import "~@/scss/variables.scss";
 
-.info .img {
-  border-radius: 4px;
-  margin: 2%;
-}
-
 .side-menu .marker-item {
   display: flex;
-
+  transition: height 1s;
   margin: 0.5em 0;
   &:first-child {
     margin-top: 0;
@@ -147,19 +150,29 @@ export default {
       overflow-x: hidden;
       text-overflow: ellipsis;
 
+      .img {
+        width: 96%;
+        border-radius: 4px;
+        margin: 2%;
+      }
+      .details {
+        margin: 0 0.5em;
+        line-height: 2em;
+      }
+
       .label {
         line-height: 2em;
         overflow-x: hidden;
         text-overflow: ellipsis;
         margin: 0 0.5em 1.5em 0.5em;
       }
-
+      
       .stats {
         display: flex;
         margin: 0 0.5em;
 
-        position: absolute;
-        bottom: 0;
+        position: relative;
+        top: -20px;
 
         font-size: 0.8em;
         line-height: 2em;
